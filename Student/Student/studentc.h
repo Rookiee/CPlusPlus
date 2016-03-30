@@ -1,0 +1,47 @@
+//
+//  studentc.h
+//  Student
+//
+//  Created by XieHaoyang on 10/17/15.
+//  Copyright © 2015 XieHaoyang. All rights reserved.
+//
+#include <iostream>
+#include <string>
+#include <valarray>
+
+#ifndef studentc_h
+#define studentc_h
+
+class Student {
+private:
+    typedef std::valarray<double> ArrayDb;//可在Student类的实现中使用，外部不能使用
+    std::string name;
+    ArrayDb scores;
+    //private method for scores output
+    std::ostream & arr_out(std::ostream &os) const;
+public:
+    Student() : name("Null Student"),scores() {}
+    explicit Student(const std::string &s):name(s),scores () {}
+    explicit Student(const int n):name("Null"), scores(n) {}
+    Student(std::string & s, const int n) : name(s), scores(n) {}
+    Student(const std::string & s, const ArrayDb & a) : name(s),scores(a) {}
+    Student(const char * str, const double * pd, int n) : name(str), scores(*pd,n) {}
+    
+    ~Student() {}
+    
+    double Average() const;
+    const std::string & Name() const;
+    double & operator[](int i);
+    double operator[](int i) const;
+    
+    //friend
+    //input
+    friend std::istream & operator >>(std::istream & is, Student & stu); // 1 word
+    friend std::istream & getline(std::istream &is, Student & stu); // one line
+    
+    //output
+    friend std::ostream & operator << (std::ostream & os, Student & stu);
+    
+    
+};
+#endif /* studentc_h */
